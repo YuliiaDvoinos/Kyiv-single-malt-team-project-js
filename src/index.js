@@ -28,10 +28,12 @@ onMovieClick.addEventListener('click', showModal);
 
 async function showModal(event) {
   event.preventDefault();
+  spinner.show(); //--
   try {
     window.addEventListener('keydown', closeModal);
 
     const target = event.target.parentNode;
+    console.log(target); //--
     if (target.parentNode.nodeName !== 'A') return;
     const idMovie = target.parentNode.dataset.id;
     await getMovie(idMovie);
@@ -39,6 +41,7 @@ async function showModal(event) {
   } catch (error) {
     console.log('Ошибка В showModal');
   }
+  spinner.hide(); //--
 }
 async function getMovie(id) {
   const movieInfo = await filmotekaApiService.fetchMovies(id);
@@ -64,13 +67,14 @@ async function renderMovieData(object) {
 function closeModal(event) {
   clearContainer(modalContaierRef);
   modalRef.classList.add('is-hidden');
-  console.log(event);
+  // console.log(event);
   if (event.code === 'ESCAPE') {
     window.removeEventListener('keydown', closeModal);
   }
 }
 
 async function PopularMovie() {
+  spinner.show();
   try {
     clearContainer(filmListRef);
     const moviesList = await filmotekaApiService.fetchResults();
@@ -81,10 +85,10 @@ async function PopularMovie() {
   } catch (error) {
     console.log('Ошибка! (PopularMovie)');
   }
+  spinner.hide();
 }
 
 async function renderMovieList(object) {
-  spinner.show();
   try {
     const { results } = object;
 
@@ -95,7 +99,6 @@ async function renderMovieList(object) {
   } catch (error) {
     console.log('Ошибка! (renderMovieList)');
   }
-  spinner.hide();
 }
 
 PopularMovie();
@@ -107,7 +110,10 @@ async function moviesSearch(event) {
       await PopularMovie();
       return;
     }
-    if (inputRefValue.value.length > 0 && inputRefValue.value.length < 3) {
+    if (
+      inputRefValue.value.length > 0 &&
+      inputRefValue.value.trim().length < 3 // добавил трим, чтобы не отправлялись запросы, сосотоящие из одних пробелов
+    ) {
       errorTextRef.textContent = textErrorManyMatches;
       if (inputRefValue.value.length > oldInputRef.length) {
         // spinner.hide();

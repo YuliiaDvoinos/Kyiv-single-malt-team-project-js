@@ -1,34 +1,40 @@
-.spinner {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 50%;
-  top: 50%;
-  width: 0px;
-  height: 0px;
-  transform: translate(-50%, -50%);
+.spinner,
+.spinner:before,
+.spinner:after {
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
   opacity: 1;
   visibility: visible;
   pointer-events: none;
-  transition: all 500ms;
-
-  &::after {
+  pointer-events: none;
+  transition: all 200ms;
+  z-index: 1000;
+  animation-fill-mode: both;
+  animation: load 1.2s infinite ease-in-out;
+}
+.spinner {
+  position: fixed;
+  color: $accent-color;
+  // top: -55px;
+  top: 170px;
+  left: 50%;
+  transform: translate(-50%);
+  animation-delay: -0.16s;
+  &:before,
+  &:after {
     content: '';
     position: absolute;
-
-    z-index: 100;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    transition: inherit;
-    box-shadow: -2.56px -2.56px 1px #ff00004d, -3.392px 0px 1px #ffaa004d,
-      -2.56px 2.56px 1px #aaff004d, 0px 3.392px 1px #00ff004d,
-      2.56px 2.56px 1px #00ffaa4d, 3.392px 0px 1px #00aaff4d,
-      2.56px -2.56px 1px #0000ff4d, 0px -3.392px 1px #aa00ff4d;
-
-    animation: spin 2500ms linear infinite;
+    top: 0;
   }
+  &:before {
+    left: -35px;
+    animation-delay: -0.32s;
+  }
+  &:after {
+    left: 35px;
+  }
+
   &.is-hidden {
     opacity: 0;
     visibility: hidden;
@@ -36,33 +42,19 @@
   }
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @media screen and (min-width: 768px) {
-  .spinner::after {
-    width: 56px;
-    height: 56px;
-    box-shadow: -3.84px -3.84px 2px #ff00004d, -5.088px 0px 2px #ffaa004d,
-      -3.84px 3.84px 2px #aaff004d, 0px 5.088px 2px #00ff004d,
-      3.84px 3.84px 2px #00ffaa4d, 5.088px 0px 2px #00aaff4d,
-      3.84px -3.84px 2px #0000ff4d, 0px -5.088px 2px #aa00ff4d;
+  .spinner {
+    top: 230px;
   }
 }
 
-@media screen and (min-width: 1024px) {
-  .spinner::after {
-    width: 112px;
-    height: 112px;
-    box-shadow: -7.68px -7.68px 3px #ff00004d, -10.176px 0px 3px #ffaa004d,
-      -7.68px 7.68px 3px #aaff004d, 0px 10.176px 3px #00ff004d,
-      7.68px 7.68px 3px #00ffaa4d, 10.176px 0px 3px #00aaff4d,
-      7.68px -7.68px 3px #0000ff4d, 0px -10.176px 3px #aa00ff4d;
+@keyframes load {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 25px 0 -13px;
+  }
+  40% {
+    box-shadow: 0 25px 0 0;
   }
 }
