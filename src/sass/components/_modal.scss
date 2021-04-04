@@ -1,15 +1,31 @@
-//поправить списки details, item
+.no-scroll {
+  overflow: hidden;
+}
 .overlay {
   position: fixed;
-  overflow-y: auto;
+  overflow-y: scroll;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   padding: 20px 0;
   background-color: rgba(0, 0, 0, 0.3);
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
+  @media screen and (min-width: 768px) {
+    padding: 230px 0;
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 120px 0;
+    &::-webkit-scrollbar {
+      /* chrome based */
+      width: 0px;
+      background: transparent;
+    }
+    & {
+      -ms-overflow-style: none; /* IE 10+ */
+      scrollbar-width: none;
+    }
+  }
   //УБРАТЬ КЛАСС ДЛЯ ОТКРЫТИЯ
   &.is-hidden {
     opacity: 0;
@@ -17,13 +33,12 @@
     pointer-events: none;
     transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  // ============
 }
+// ============
 
 .modal__wrapper {
   position: relative;
   margin: 0 auto;
-  padding: 0 auto;
   width: 100%;
   height: auto;
 
@@ -41,25 +56,35 @@
     padding: 50px 30px 40px 30px;
   }
 }
+
 .modal {
   @media screen and (min-width: 768px) {
     display: flex;
+  }
+  &__poster-tmp {
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      margin: 0 auto;
+      margin-bottom: 30px;
+    }
+    @media screen and (min-width: 768px) {
+      margin-right: 32px;
+    }
+    @media screen and (min-width: 1024px) {
+      margin-right: 30px;
+    }
   }
 
   &__poster {
     @media screen and (min-width: 320px) and (max-width: 767px) {
       width: 240px;
       height: 356px;
-      margin: 0 auto;
       margin-bottom: 30px;
     }
     @media screen and (min-width: 768px) {
-      margin-right: 32px;
       width: 264px;
       height: 373px;
     }
     @media screen and (min-width: 1024px) {
-      margin-right: 30px;
       width: 396px;
       height: 477px;
     }
@@ -82,7 +107,6 @@
   fill: #000000;
 }
 
-// description section
 .modal__descr {
   &-title {
     font-weight: 500;
@@ -98,20 +122,25 @@
       @include font(30px, 35px);
     }
   }
+  &-list {
+    margin-bottom: 20px;
+  }
 
-  &-details {
-    font-weight: 500;
-    @include font(12px, 16px);
-    color: #8c8c8c;
-    @media screen and (min-width: 320px) and (max-width: 1023px) {
-      width: 69px;
-    }
+  &-sublist {
+    display: flex;
     &:not(:last-child) {
       margin-bottom: 10px;
     }
   }
-  &-list--values {
-    margin-left: 40px;
+  &-details {
+    font-weight: 500;
+    @include font(12px, 16px);
+    color: #8c8c8c;
+
+    &--indent {
+      margin-right: 40px;
+      min-width: 69px;
+    }
   }
   &-item {
     font-weight: 500;
@@ -120,18 +149,6 @@
     &--title {
       text-transform: uppercase;
     }
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
-  }
-  &-subtitle {
-    font-weight: 500;
-    @include font(12px, 16px);
-    margin-bottom: 10px;
-  }
-  &-info {
-    font-weight: 500;
-    @include font(12px, 20px);
   }
   &-vote,
   &-votes {
@@ -151,10 +168,15 @@
   &-separator {
     color: #8c8c8c;
   }
-}
-.modal__list-position {
-  display: flex;
-  margin-bottom: 20px;
+  &-subtitle {
+    font-weight: 500;
+    @include font(12px, 16px);
+    margin-bottom: 10px;
+  }
+  &-info {
+    font-weight: 500;
+    @include font(12px, 20px);
+  }
 }
 
 .modal__buttons {
